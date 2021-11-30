@@ -77,14 +77,16 @@ int check_files(data_t* data)
 
 int main(int ac, char **av)
 {
-    data_t* data = malloc(sizeof(data_t));
+    char* test[] = {"c", "b", "a"};
+
+    /*data_t* data = malloc(sizeof(data_t));
     data->nb_files = nb_files(av);
     if (ac == 1)
         simple_print();
     else {
         get_files(data, av);
         check_files(data);
-    }
+    }*/
 
     /*DIR *dir = opendir(".");
     struct dirent *buf;
