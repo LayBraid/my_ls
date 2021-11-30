@@ -99,8 +99,8 @@ int my_ls(char *path, data_t *data)
             i++;
         }
     }
-    closedir(dir);
     my_array_str_sort(all, nb);
+    closedir(dir);
     return 0;
 }
 
