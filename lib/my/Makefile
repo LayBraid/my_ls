@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT, 2021
-## BLANK_PROJECT_C
+## MY_LS
 ## File description:
 ## No file there , just an epitech header example
 ##
