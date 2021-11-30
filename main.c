@@ -36,7 +36,7 @@ int nb_files(char **av)
 {
     int nb = 0;
 
-    for (int i = 0; av[i]; i++) {
+    for (int i = 1; av[i]; i++) {
         if (av[i][0] != '-')
             nb++;
     }
@@ -46,11 +46,15 @@ int nb_files(char **av)
 void get_files(data_t* data, char **av)
 {
     char **files = malloc(sizeof(char *) * data->nb_files);
-    for (int i = 0; av[i]; i++) {
+    int nb_skip = 1;
+
+    for (int i = 1; av[i]; i++) {
+        my_printf("debug av[i] enter: %s\n", av[i]);
         if (av[i][0] != '-') {
-            files[i] = malloc(sizeof(char) * (my_strlen(av[i]) + 1));
-            files[i] = av[i];
-        }
+            files[i - nb_skip] = malloc(sizeof(char) * (my_strlen(av[i]) + 1));
+            files[i - nb_skip] = av[i];
+        } else
+            nb_skip++;
     }
     data->files = files;
 }
@@ -66,7 +70,7 @@ int check_files(data_t* data)
         str = my_strcat(str, ".");
         if (opendir(str) == NULL) {
             switch (errno) {
-                case ENOTDIR:
+                case ENOENT:
                     my_putstr(ERROR_NO_FILE_DIRECTORY);
                     return (84);
             }
@@ -77,16 +81,17 @@ int check_files(data_t* data)
 
 int main(int ac, char **av)
 {
-    char* test[] = {"c", "b", "a"};
-
-    /*data_t* data = malloc(sizeof(data_t));
+    data_t* data = malloc(sizeof(data_t));
     data->nb_files = nb_files(av);
     if (ac == 1)
         simple_print();
     else {
         get_files(data, av);
+        my_printf("nb of files: %d\n", data->nb_files);
+        for (int i = 0; i < data->nb_files; i++)
+            my_printf("files[%d]: %s\n", i, data->files[i]);
         check_files(data);
-    }*/
+    }
 
     /*DIR *dir = opendir(".");
     struct dirent *buf;

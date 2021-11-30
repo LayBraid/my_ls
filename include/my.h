@@ -123,4 +123,6 @@ int my_strcmp(char const *s1, char const *s2);
 
 int my_atoi(char *str);
 
+int my_array_str_sort(char **array, int nb);
+
 #endif
