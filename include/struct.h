@@ -17,10 +17,28 @@ typedef struct flags_list
     char t;
 } flags_t;
 
+typedef struct file_struct
+{
+    char *path;
+    char *name;
+    char *perm;
+    char *user;
+    char *group;
+    char *size;
+    char *modification;
+} file;
+
+typedef struct directory_struct
+{
+    char *path;
+    int nb_files;
+    file **files;
+} dir;
+
 typedef struct all_data
 {
-    int nb_files;
-    char **files;
+    int nb_dir;
+    dir **directory;
     flags_t *flags;
 } data_t;
 

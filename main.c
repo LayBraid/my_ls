@@ -9,30 +9,12 @@
 
 int see_param(data_t* data)
 {
-    printf("R: %d", data->flags->R);
-    printf("d: %d", data->flags->d);
+    my_printf("R: %d", data->flags->R);
+    my_printf("d: %d", data->flags->d);
     return 0;
 }
 
-int simple_print(void)
-{
-    DIR *dir = opendir(".");
-    struct dirent *buf;
-    char *str = "";
-
-    while ((buf=readdir(dir)) != NULL) {
-        if (buf->d_name[0] != '.') {
-            str = my_strcat(str, buf->d_name);
-            str = my_strcat_c(str, ' ');
-        }
-    }
-    closedir(dir);
-    str[my_strlen(str)] = '\n';
-    my_putstr(str);
-    return 0;
-}
-
-int nb_files(char **av)
+int nb_dir_in_arg(char **av)
 {
     int nb = 0;
 
@@ -43,28 +25,50 @@ int nb_files(char **av)
     return nb;
 }
 
-void get_files(data_t* data, char **av)
+int nb_files_in_path(char *path)
 {
-    char **files = malloc(sizeof(char *) * data->nb_files);
+    int nb = 0;
+    DIR *dir = opendir(path);
+    struct dirent *dp;
+
+    if (dir == NULL)
+        return (84);
+    while ((dp = readdir(dir)) != NULL) {
+        if (dp->d_name[0] != '.')
+            nb++;
+    }
+    closedir(dir);
+    return nb;
+}
+
+int get_directory(data_t* data, char **av, int ac)
+{
     int nb_skip = 1;
 
-    for (int i = 1; av[i]; i++) {
-        my_printf("debug av[i] enter: %s\n", av[i]);
+    if (data->nb_dir == 0) {
+        data->nb_dir = 1;
+        data->directory = malloc(sizeof(dir *) * 1);
+        data->directory[0] = malloc(sizeof(dir));
+        data->directory[0]->path = ".";
+        return 1;
+    } else
+        data->directory = malloc(sizeof(dir *) * data->nb_dir);
+    for (int i = 1; i < ac; i++) {
         if (av[i][0] != '-') {
-            files[i - nb_skip] = malloc(sizeof(char) * (my_strlen(av[i]) + 1));
-            files[i - nb_skip] = av[i];
+            data->directory[i - nb_skip] = malloc(sizeof(dir));
+            data->directory[i - nb_skip]->path = av[i];
         } else
             nb_skip++;
     }
-    data->files = files;
+    return 0;
 }
 
 int check_files(data_t* data)
 {
     char *str;
 
-    for (int i = 0; i < data->nb_files; i++) {
-        str = data->files[i];
+    for (int i = 0; i < data->nb_dir; i++) {
+        str = data->directory[i]->path;
         if (str[my_strlen(str)] != '/')
             str = my_strcat(str, "/");
         str = my_strcat(str, ".");
@@ -72,36 +76,69 @@ int check_files(data_t* data)
             switch (errno) {
                 case ENOENT:
                     my_putstr(ERROR_NO_FILE_DIRECTORY);
-                    return (84);
+                    exit(84);
             }
         }
     }
-    return 1;
+    return 0;
+}
+
+int my_ls(char *path, data_t *data)
+{
+    DIR *dir = opendir(path);
+    struct dirent *dp;
+    int nb = nb_files_in_path(path);
+
+    if (dir == NULL)
+        return (84);
+    char **all = malloc(sizeof(char *) * nb);
+    int i = 0;
+    while ((dp = readdir(dir)) != NULL) {
+        if (dp->d_name[0] != '.') {
+            all[i] = dp->d_name;
+            i++;
+        }
+    }
+    closedir(dir);
+    my_array_str_sort(all, nb);
+    return 0;
+}
+
+int fill_files(data_t *data)
+{
+    DIR *dir;
+    struct dirent *dp;
+    int j;
+
+    for (int i = 0; i < data->nb_dir; i++) {
+        j = 0;
+        data->directory[i]->nb_files = nb_files_in_path(data->
+                directory[i]->path);
+        data->directory[i]->files = malloc(sizeof(file *) * data->
+                directory[i]->nb_files);
+        dir = opendir(data->directory[i]->path);
+        while ((dp = readdir(dir)) != NULL) {
+            if (dp->d_name[0] != '.') {
+                data->directory[i]->files[j] = malloc(sizeof(file));
+                data->directory[i]->files[j]->path = dp->d_name;
+                j++;
+            }
+        }
+    }
+    return 0;
 }
 
 int main(int ac, char **av)
 {
     data_t* data = malloc(sizeof(data_t));
-    data->nb_files = nb_files(av);
-    if (ac == 1)
-        simple_print();
-    else {
-        get_files(data, av);
-        my_printf("nb of files: %d\n", data->nb_files);
-        for (int i = 0; i < data->nb_files; i++)
-            my_printf("files[%d]: %s\n", i, data->files[i]);
-        check_files(data);
+    data->nb_dir = nb_dir_in_arg(av);
+    get_directory(data, av, ac);
+    check_files(data);
+    fill_files(data);
+    for (int i = 0; i < data->nb_dir; i++) {
+        my_printf("\ndir: %s >>\n", data->directory[i]->path);
+        for (int j = 0; j < data->directory[i]->nb_files; j++)
+            my_printf("    | file: %s\n", data->directory[i]->files[j]->path);
     }
-
-    /*DIR *dir = opendir(".");
-    struct dirent *buf;
-    char * file_name;
-    struct stat* test;
-    while ((buf=readdir(dir)) != NULL) {
-        file_name = buf->d_name;
-        lstat(file_name, test);
-        printf("%u | %s\n", test->st_uid, file_name);
-    }
-    closedir(dir);*/
     return 0;
 }

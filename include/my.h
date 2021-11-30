@@ -125,4 +125,6 @@ int my_atoi(char *str);
 
 int my_array_str_sort(char **array, int nb);
 
+int nb_files_in_path(char *path);
+
 #endif

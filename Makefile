@@ -15,7 +15,7 @@ OBJ = $(MAIN:.c=.o) $(SRC:.c=.o)
 
 NAME = my_ls
 SRC_LIB = -Llib -lmy
-CFLAGS += -Wextra -Iinclude
+CFLAGS += -Wextra -Iinclude -g3
 
 $(NAME): $(OBJ)
 	cd lib/my && make
