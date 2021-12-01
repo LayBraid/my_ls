@@ -39,20 +39,15 @@ int file_info(data_t *data, int i, int j)
 
     if ((grp = getgrgid(statbuf.st_gid)) != NULL)
         data->directory[i]->files[j]->group = grp->gr_name;
-
     uid = geteuid();
     pw = getpwuid(uid);
     data->directory[i]->files[j]->user = pw->pw_name;
-
     if (stat(data->directory[i]->files[j]->path, &stats) < 0)
         my_exit(ERROR_STAT, 84);
-
     data->directory[i]->files[j]->size = (int) stats.st_size;
     strftime(time, 49, "%b %d %H:%M", localtime(&(stats.st_mtime)));
     data->directory[i]->files[j]->modification = time;
-
     data->directory[i]->files[j]->nb = stats.st_nlink;
-
     data->directory[i]->files[j]->perm = get_permissions(stats);
     return 0;
 }
