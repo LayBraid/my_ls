@@ -33,6 +33,6 @@
     #define ERROR_NO_FILE_DIRECTORY "No such file or directory\n"
     #define ERROR_STAT "Error stat n°12\n"
 
-int file_info(data_t *data, int i, int j);
+int my_print_verif(data_t *data);
 
 #endif
