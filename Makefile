@@ -7,7 +7,7 @@
 
 MAIN = main.c
 
-SRC =
+SRC = files.c
 
 TESTS =
 
@@ -40,7 +40,7 @@ re:
 	make
 
 tests_run:
-	gcc $(TESTED_SRC) $(TESTS_SRC) $(SRC_LIB) $(CFLAGS) -lcriterion -o./unit-tests --coverage
+	gcc $(SRC) $(TESTS_SRC) $(SRC_LIB) $(CFLAGS) -lcriterion -o./unit-tests --coverage
 	./unit-tests
 
 debug:

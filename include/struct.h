@@ -24,7 +24,7 @@ typedef struct file_struct
     char *perm;
     char *user;
     char *group;
-    char *size;
+    int size;
     char *modification;
 } file;
 

@@ -17,7 +17,13 @@
     #include "struct.h"
     #include "my.h"
     #include "errno.h"
+    #include "time.h"
+    #include "files.h"
+    #include "directory.h"
+    #include <pwd.h>
+    #include <grp.h>
 
     #define ERROR_NO_FILE_DIRECTORY "No such file or directory\n"
+    #define ERROR_STAT "Error stat n°12\n"
 
 #endif
