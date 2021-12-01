@@ -7,13 +7,6 @@
 
 #include "include/my_ls.h"
 
-int see_param(data_t* data)
-{
-    my_printf("R: %d", data->flags->R);
-    my_printf("d: %d", data->flags->d);
-    return 0;
-}
-
 int my_ls(char *path, data_t *data)
 {
     DIR *dir = opendir(path);
@@ -51,10 +44,8 @@ int file_info(data_t *data, int i, int j)
     pw = getpwuid(uid);
     data->directory[i]->files[j]->user = pw->pw_name;
 
-    if (stat(data->directory[i]->files[j]->path, &stats) < 0) {
-        my_putstr(ERROR_STAT);
-        exit(84);
-    }
+    if (stat(data->directory[i]->files[j]->path, &stats) < 0)
+        my_exit(ERROR_STAT, 84);
 
     data->directory[i]->files[j]->size = (int) stats.st_size;
     strftime(time, 49, "%b %d %H:%M", localtime(&(stats.st_mtime)));
@@ -62,47 +53,93 @@ int file_info(data_t *data, int i, int j)
 
     data->directory[i]->files[j]->nb = stats.st_nlink;
 
-    data->directory[i]->files[j]->perm = "";
-    data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (S_ISDIR(stats.st_mode)) ? 'd' : '-');
-    data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (stats.st_mode & S_IWUSR) ? 'w' : '-');
-    data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (stats.st_mode & S_IRUSR) ? 'r' : '-');
-    data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (stats.st_mode & S_IXUSR) ? 'x' : '-');
-    data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (stats.st_mode & S_IRGRP) ? 'r' : '-');
-    data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (stats.st_mode & S_IWGRP) ? 'w' : '-');
-    data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (stats.st_mode & S_IXGRP) ? 'x' : '-');
-    data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (stats.st_mode & S_IROTH) ? 'r' : '-');
-    data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (stats.st_mode & S_IWOTH) ? 'w' : '-');
-    data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (stats.st_mode & S_IXOTH) ? 'x' : '-');
+    data->directory[i]->files[j]->perm = get_permissions(stats);
     return 0;
 }
 
 int my_print_verif(data_t *data)
 {
     for (int i = 0; i < data->nb_dir; i++) {
-        sort_files_in_directory(data->directory[i]);
         my_printf("\ndir: '%s' >>\n", data->directory[i]->path);
         for (int j = 0; j < data->directory[i]->nb_files; j++) {
-            my_printf("    | %s %d %s %s %d %s %s\n",
+            my_printf("    | %s %d %s %s %d %s %s | type: %d\n",
                       data->directory[i]->files[j]->perm,
                       data->directory[i]->files[j]->nb,
                       data->directory[i]->files[j]->user,
                       data->directory[i]->files[j]->group,
                       data->directory[i]->files[j]->size,
                       data->directory[i]->files[j]->modification,
-                      data->directory[i]->files[j]->path);
+                      data->directory[i]->files[j]->path,
+                      data->directory[i]->files[j]->type);
         }
     }
+    return 0;
+}
+
+int format_lines(data_t *data)
+{
+    return 0;
+}
+
+int format_lines_directory(data_t *data)
+{
+    for (int i = 0; i < data->nb_dir; i++) {
+        my_printf("%s  %d %s  %s  %d  %s  %s\n",
+                  data->directory[i]->perm,
+                  data->directory[i]->nb,
+                  data->directory[i]->user,
+                  data->directory[i]->group,
+                  data->directory[i]->size,
+                  data->directory[i]->modification,
+                  data->directory[i]->path);
+    }
+    return 0;
+}
+
+int format_directory(data_t *data)
+{
+    for (int i = 0; i < data->nb_dir; i++) {
+        my_printf("%s\n", data->directory[i]->path);
+    }
+    return 0;
+}
+
+int format_simple(data_t *data)
+{
+    for (int i = 0; i < data->nb_dir; i++)
+        for (int j = 0; j < data->directory[i]->nb_files; j++)
+            my_printf("%s\n", data->directory[i]->files[j]->path);
+    return 0;
+}
+
+int format_result(data_t *data)
+{
+    if (data->r == 1)
+        for (int i = 0; i < data->nb_dir; i++)
+            rev_files_in_directory(data->directory[i]);
+    if (data->l == 1 && data->d == 0)
+        format_lines(data);
+    if (data->l == 1 && data->d == 1)
+        format_lines_directory(data);
+    if (data->l == 0 && data->d == 1)
+        format_directory(data);
+    if (data->l == 0 && data->d == 0)
+        format_simple(data);
     return 0;
 }
 
 int main(int ac, char **av)
 {
     data_t* data = malloc(sizeof(data_t));
-    data->nb_dir = nb_dir_in_arg(av);
+    init_data(data, av);
     get_directory(data, av, ac);
+    get_flags(data, av, ac);
     check_files(data);
     fill_files(data);
     for (int i = 0; i < data->nb_dir; i++)
-        sort_files_in_directory(data->directory[i]);
+        (data->t == 0) ? sort_files_in_directory(data->directory[i]) :
+        sort_files_in_directory_by_date(data->directory[i]);
+    format_result(data);
+    //my_print_verif(data);
     return 0;
 }

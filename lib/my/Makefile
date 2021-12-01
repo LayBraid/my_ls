@@ -34,7 +34,8 @@ SRC = my_printf.c \
 	  my_printf_param.c \
 	  my_strncpy.c \
 	  my_printf_type.c \
-	  my_array_str_sort.c
+	  my_array_str_sort.c \
+	  my_exit.c
 
 OBJ = $(SRC:.c=.o)
 

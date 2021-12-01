@@ -8,7 +8,11 @@
 MAIN = main.c
 
 SRC = files.c \
-	  directory.c
+	  directory.c \
+	  data.c \
+	  flags.c \
+	  permissions.c \
+	  sort.c
 
 TESTS =
 

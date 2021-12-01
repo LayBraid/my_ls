@@ -14,14 +14,19 @@
     #include <sys/types.h>
     #include <sys/stat.h>
     #include <unistd.h>
-    #include "struct.h"
-    #include "my.h"
-    #include "errno.h"
-    #include "time.h"
-    #include "files.h"
-    #include "directory.h"
     #include <pwd.h>
     #include <grp.h>
+
+    #include "errno.h"
+    #include "time.h"
+
+    #include "struct.h"
+    #include "my.h"
+    #include "files.h"
+    #include "directory.h"
+    #include "data.h"
+    #include "flags.h"
+    #include "sort.h"
 
     #define ERROR_NO_FILE_DIRECTORY "No such file or directory\n"
     #define ERROR_STAT "Error stat n°12\n"

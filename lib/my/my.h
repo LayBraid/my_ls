@@ -127,4 +127,6 @@ int my_array_str_sort(char **array, int nb);
 
 int nb_files_in_path(char *path);
 
+int my_exit(char *reason, int nb);
+
 #endif

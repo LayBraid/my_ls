@@ -7,6 +7,40 @@
 
 #include "include/directory.h"
 
+char *fill_directory_time(dir *d, struct stat stats)
+{
+    char *time;
+    time = ctime(&stats.st_mtime);
+    my_printf("time: %s\n", time);
+    time = my_strncpy(time, time, 12);
+    my_printf("time: %s\n", time);
+    return time;
+}
+
+int fill_directory(dir *d)
+{
+    struct stat stats;
+    register struct passwd *pw;
+    register uid_t uid;
+    struct stat statbuf;
+    struct group *grp;
+    grp = getgrgid(statbuf.st_gid);
+    uid = geteuid();
+    pw = getpwuid(uid);
+
+    if (grp != NULL)
+        d->group = grp->gr_name;
+    d->user = pw->pw_name;
+    if (stat(d->path, &stats) < 0)
+        my_exit(ERROR_STAT, 84);
+    d->modification = fill_directory_time(d, stats);
+    d->perm = get_permissions(stats);
+    d->size = (int) stats.st_size;
+    d->nb = stats.st_nlink;
+
+    return 0;
+}
+
 int nb_dir_in_arg(char **av)
 {
     int nb = 0;
@@ -34,6 +68,7 @@ int get_directory(data_t* data, char **av, int ac)
         if (av[i][0] != '-') {
             data->directory[i - nb_skip] = malloc(sizeof(dir));
             data->directory[i - nb_skip]->path = av[i];
+            fill_directory(data->directory[i - nb_skip]);
         } else
             nb_skip++;
     }

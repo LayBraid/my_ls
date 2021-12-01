@@ -8,20 +8,11 @@
 #ifndef MY_LS_STRUCT_H
     #define MY_LS_STRUCT_H
 
-typedef struct flags_list
-{
-    char R;
-    char r;
-    char d;
-    char l;
-    char t;
-} flags_t;
-
 typedef struct file_struct
 {
     char *path;
     int nb;
-    char *name;
+    int type;
     char *perm;
     char *user;
     char *group;
@@ -33,6 +24,13 @@ typedef struct directory_struct
 {
     char *path;
     int nb_files;
+    int total;
+    int nb;
+    char *perm;
+    char *user;
+    char *group;
+    int size;
+    char *modification;
     file **files;
 } dir;
 
@@ -40,7 +38,11 @@ typedef struct all_data
 {
     int nb_dir;
     dir **directory;
-    flags_t *flags;
+    int R;
+    int r;
+    int d;
+    int l;
+    int t;
 } data_t;
 
 #endif

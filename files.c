@@ -7,20 +7,6 @@
 
 #include "include/files.h"
 
-int sort_files_in_directory(dir *d)
-{
-    file *tmp;
-    for (int i = 0; i < d->nb_files - 1; i++) {
-        if (my_strcmp(d->files[i]->path, d->files[i + 1]->path) > 0) {
-            tmp = d->files[i];
-            d->files[i] = d->files[i + 1];
-            d->files[i + 1] = tmp;
-            sort_files_in_directory(d);
-        }
-    }
-    return 0;
-}
-
 int fill_files(data_t *data)
 {
     DIR *dir;
@@ -38,6 +24,7 @@ int fill_files(data_t *data)
             if (dp->d_name[0] != '.') {
                 data->directory[i]->files[j] = malloc(sizeof(file));
                 data->directory[i]->files[j]->path = dp->d_name;
+                data->directory[i]->files[j]->type = dp->d_type;
                 file_info(data, i, j);
                 j++;
             }

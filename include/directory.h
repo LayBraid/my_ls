@@ -9,6 +9,7 @@
     #define MY_LS_DIRECTORY_H
 
     #include "my_ls.h"
+    #include "permissions.h"
 
 int nb_dir_in_arg(char **av);
 
