@@ -27,6 +27,7 @@
     #include "data.h"
     #include "flags.h"
     #include "sort.h"
+    #include "formating.h"
 
     #define ERROR_NO_FILE_DIRECTORY "No such file or directory\n"
     #define ERROR_STAT "Error stat n°12\n"

@@ -12,7 +12,8 @@ SRC = files.c \
 	  data.c \
 	  flags.c \
 	  permissions.c \
-	  sort.c
+	  sort.c \
+	  formating.c
 
 TESTS =
 
