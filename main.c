@@ -38,6 +38,5 @@ int main(int ac, char **av)
         (data->t == 0) ? sort_files_in_directory(data->directory[i]) :
         sort_files_in_directory_by_date(data->directory[i]);
     format_result(data);
-    my_print_verif(data);
     return 0;
 }
