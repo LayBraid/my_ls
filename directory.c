@@ -12,17 +12,16 @@ int fill_directory(dir *d)
     struct stat stats;
     register struct passwd *pw;
     register uid_t uid;
-    struct stat statbuf;
     struct group *grp;
-    grp = getgrgid(statbuf.st_gid);
+
+    if (stat(d->path, &stats) < 0)
+        my_exit(ERROR_STAT, 84);
+    grp = getgrgid(stats.st_gid);
     uid = geteuid();
     pw = getpwuid(uid);
-
     if (grp != NULL)
         d->group = grp->gr_name;
     d->user = pw->pw_name;
-    if (stat(d->path, &stats) < 0)
-        my_exit(ERROR_STAT, 84);
     d->modification = fill_time(stats);
     d->perm = get_permissions(stats);
     d->size = (int) stats.st_size;
