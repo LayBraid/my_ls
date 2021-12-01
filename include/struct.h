@@ -20,6 +20,7 @@ typedef struct flags_list
 typedef struct file_struct
 {
     char *path;
+    int nb;
     char *name;
     char *perm;
     char *user;

@@ -17,4 +17,6 @@ int check_files(data_t* data);
 
 int nb_files_in_path(char *path);
 
+int sort_files_in_directory(dir *d);
+
 #endif

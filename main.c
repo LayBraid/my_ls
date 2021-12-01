@@ -60,6 +60,8 @@ int file_info(data_t *data, int i, int j)
     strftime(time, 49, "%b %d %H:%M", localtime(&(stats.st_mtime)));
     data->directory[i]->files[j]->modification = time;
 
+    data->directory[i]->files[j]->nb = stats.st_nlink;
+
     data->directory[i]->files[j]->perm = "";
     data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (S_ISDIR(stats.st_mode)) ? 'd' : '-');
     data->directory[i]->files[j]->perm = my_strcat_c(data->directory[i]->files[j]->perm, (stats.st_mode & S_IWUSR) ? 'w' : '-');
@@ -82,10 +84,12 @@ int main(int ac, char **av)
     check_files(data);
     fill_files(data);
     for (int i = 0; i < data->nb_dir; i++) {
+        sort_files_in_directory(data->directory[i]);
         my_printf("\ndir: '%s' >>\n", data->directory[i]->path);
         for (int j = 0; j < data->directory[i]->nb_files; j++) {
-            my_printf("    | %s %s %s %d %s %s\n",
+            my_printf("    | %s %d %s %s %d %s %s\n",
                    data->directory[i]->files[j]->perm,
+                   data->directory[i]->files[j]->nb,
                    data->directory[i]->files[j]->user,
                    data->directory[i]->files[j]->group,
                    data->directory[i]->files[j]->size,
