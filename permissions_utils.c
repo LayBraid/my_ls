@@ -5,7 +5,7 @@
 ** No file there , just an epitech header example
 */
 
-#include "include/permissions.h"
+#include "include/permissions_utils.h"
 
 char *get_permissions(struct stat stats)
 {

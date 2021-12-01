@@ -15,14 +15,15 @@ int format_lines(data_t *data)
 int format_lines_directory(data_t *data)
 {
     for (int i = 0; i < data->nb_dir; i++) {
-        my_printf("%s  %d %s  %s  %d  %s  %s\n",
+        my_printf("%s", data->directory[i]->perm);
+        /*my_printf("%s  %d %s  %s  %d  %s  %s\n",
                   data->directory[i]->perm,
                   data->directory[i]->nb,
                   data->directory[i]->user,
                   data->directory[i]->group,
                   data->directory[i]->size,
                   data->directory[i]->modification,
-                  data->directory[i]->path);
+                  data->directory[i]->path);*/
     }
     return 0;
 }

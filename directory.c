@@ -7,16 +7,6 @@
 
 #include "include/directory.h"
 
-char *fill_directory_time(dir *d, struct stat stats)
-{
-    char *time;
-    time = ctime(&stats.st_mtime);
-    my_printf("time: %s\n", time);
-    time = my_strncpy(time, time, 12);
-    my_printf("time: %s\n", time);
-    return time;
-}
-
 int fill_directory(dir *d)
 {
     struct stat stats;
@@ -33,11 +23,10 @@ int fill_directory(dir *d)
     d->user = pw->pw_name;
     if (stat(d->path, &stats) < 0)
         my_exit(ERROR_STAT, 84);
-    d->modification = fill_directory_time(d, stats);
+    d->modification = fill_time(stats);
     d->perm = get_permissions(stats);
     d->size = (int) stats.st_size;
     d->nb = stats.st_nlink;
-
     return 0;
 }
 

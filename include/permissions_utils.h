@@ -5,8 +5,8 @@
 ** No file there , just an epitech header example
 */
 
-#ifndef MY_LS_PERMISSIONS_H
-    #define MY_LS_PERMISSIONS_H
+#ifndef MY_LS_PERMISSIONS_UTILS_H
+    #define MY_LS_PERMISSIONS_UTILS_H
 
     #include "my_ls.h"
 

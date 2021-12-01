@@ -33,20 +33,17 @@ int file_info(data_t *data, int i, int j)
     struct stat stats;
     char *time = malloc(sizeof(char) * 50);
     register struct passwd *pw;
-    register uid_t uid;
-    struct stat statbuf;
     struct group *grp;
 
-    if ((grp = getgrgid(statbuf.st_gid)) != NULL)
-        data->directory[i]->files[j]->group = grp->gr_name;
-    uid = geteuid();
-    pw = getpwuid(uid);
-    data->directory[i]->files[j]->user = pw->pw_name;
     if (stat(data->directory[i]->files[j]->path, &stats) < 0)
         my_exit(ERROR_STAT, 84);
+    grp = getgrgid(stats.st_gid);
+    if (grp != NULL)
+        data->directory[i]->files[j]->group = grp->gr_name;
+    pw = getpwuid(stats.st_uid);
+    data->directory[i]->files[j]->user = pw->pw_name;
     data->directory[i]->files[j]->size = (int) stats.st_size;
-    strftime(time, 49, "%b %d %H:%M", localtime(&(stats.st_mtime)));
-    data->directory[i]->files[j]->modification = time;
+    data->directory[i]->files[j]->modification = fill_time(stats);
     data->directory[i]->files[j]->nb = stats.st_nlink;
     data->directory[i]->files[j]->perm = get_permissions(stats);
     return 0;
@@ -83,6 +80,6 @@ int main(int ac, char **av)
         (data->t == 0) ? sort_files_in_directory(data->directory[i]) :
         sort_files_in_directory_by_date(data->directory[i]);
     format_result(data);
-    //my_print_verif(data);
+    my_print_verif(data);
     return 0;
 }

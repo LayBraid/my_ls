@@ -18,7 +18,7 @@
     #include <grp.h>
 
     #include "errno.h"
-    #include "time.h"
+    #include "time_utils.h"
 
     #include "struct.h"
     #include "my.h"
@@ -28,6 +28,7 @@
     #include "flags.h"
     #include "sort.h"
     #include "formating.h"
+    #include "time_utils.h"
 
     #define ERROR_NO_FILE_DIRECTORY "No such file or directory\n"
     #define ERROR_STAT "Error stat n°12\n"
