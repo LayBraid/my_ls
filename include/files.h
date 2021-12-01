@@ -15,6 +15,6 @@ int fill_files(data_t *data);
 
 int check_files(data_t* data);
 
-int nb_files_in_path(char *path)
+int nb_files_in_path(char *path);
 
 #endif

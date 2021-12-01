@@ -7,7 +7,8 @@
 
 MAIN = main.c
 
-SRC = files.c
+SRC = files.c \
+	  directory.c
 
 TESTS =
 
