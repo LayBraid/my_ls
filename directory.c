@@ -14,7 +14,7 @@ int fill_directory(dir *d)
     register uid_t uid;
     struct group *grp;
 
-    if (stat(d->path, &stats) < 0)
+    if (stat(".", &stats) < 0)
         my_exit(ERROR_STAT, 84);
     grp = getgrgid(stats.st_gid);
     uid = geteuid();
@@ -49,6 +49,7 @@ int get_directory(data_t* data, char **av, int ac)
         data->directory = malloc(sizeof(dir *) * 1);
         data->directory[0] = malloc(sizeof(dir));
         data->directory[0]->path = ".";
+        fill_directory(data->directory[0]);
         return 1;
     } else
         data->directory = malloc(sizeof(dir *) * data->nb_dir);

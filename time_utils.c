@@ -16,6 +16,7 @@ char *fill_time(struct stat stats)
     result = my_strcat_c(result, time[5]);
     result = my_strcat_c(result, time[6]);
     result = my_strcat_c(result, time[7]);
+    result = my_strcat_c(result, time[8]);
     result = my_strcat_c(result, time[9]);
     result = my_strcat_c(result, time[10]);
     result = my_strcat_c(result, time[11]);
