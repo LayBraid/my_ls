@@ -6,6 +6,7 @@
 */
 
 #include "my.h"
+#include "printf.h"
 
 void search_next_flag(char *p, va_list param, int i, all_flags *my_flags)
 {
@@ -14,7 +15,7 @@ void search_next_flag(char *p, va_list param, int i, all_flags *my_flags)
             return my_flags->space[j]->function(p, param, i);
     }
     for (int j = 0; j < 9; j++) {
-        if (my_flags->h[j]->flag == p[my_strlen(p) - 1] && (p[0] == '#'|| p[0] == '0'))
+        if (my_flags->h[j]->flag == p[my_strlen(p) - 1] && p[0] == '#')
             return my_flags->h[j]->function(p, param, i);
     }
     for (int j = 0; j < 3; j++) {
@@ -34,7 +35,7 @@ void search_flag(char *str, va_list param, int i, all_flags *my_flags)
             return my_flags->simple[j]->function(p, param, i);
     }
     for (int j = 0; j < 8; j++) {
-        if (my_flags->point[j]->flag == p[my_strlen(p)] && p[0] == '.')
+        if (my_flags->point[j]->flag == p[my_strlen(p) - 1] && (p[0] == '.' || p[0] == '0'))
             return my_flags->point[j]->function(p, param, i);
     }
     for (int j = 0; j < 3; j++) {
