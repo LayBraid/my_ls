@@ -14,4 +14,7 @@ int init_data(data_t *data, char **av)
     data->d = 0;
     data->l = 0;
     data->t = 0;
+    data->max_link = 0;
+    data->max_size = 0;
+    return 0;
 }

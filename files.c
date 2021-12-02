@@ -21,9 +21,13 @@ int file_info(data_t *data, int i, int j)
     pw = getpwuid(stats.st_uid);
     data->directory[i]->files[j]->user = pw->pw_name;
     data->directory[i]->files[j]->size = (int) stats.st_size;
-    data->directory[i]->files[j]->modification = fill_time(stats);
+    data->directory[i]->files[j]->date = convert_ctime_to_date(stats);
     data->directory[i]->files[j]->nb = stats.st_nlink;
     data->directory[i]->files[j]->perm = get_permissions(stats);
+    if (my_int_len((int) stats.st_size) > data->directory[i]->max_size)
+        data->directory[i]->max_size = my_int_len((int) stats.st_size);
+    if (my_int_len(stats.st_nlink) > data->directory[i]->max_link)
+        data->directory[i]->max_link = my_int_len(stats.st_nlink);
     return 0;
 }
 

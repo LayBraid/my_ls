@@ -12,13 +12,16 @@ int my_print_verif(data_t *data)
     for (int i = 0; i < data->nb_dir; i++) {
         my_printf("\ndir: '%s' >>\n", data->directory[i]->path);
         for (int j = 0; j < data->directory[i]->nb_files; j++) {
-            my_printf("    | %s %d %s %s %d %s %s\n",
+            my_printf("    | %s %d %s %s %d %s %d %d:%d %s\n",
                       data->directory[i]->files[j]->perm,
                       data->directory[i]->files[j]->nb,
                       data->directory[i]->files[j]->user,
                       data->directory[i]->files[j]->group,
                       data->directory[i]->files[j]->size,
-                      data->directory[i]->files[j]->modification,
+                      data->directory[i]->files[j]->date->month_str,
+                      data->directory[i]->files[j]->date->day,
+                      data->directory[i]->files[j]->date->hour,
+                      data->directory[i]->files[j]->date->min,
                       data->directory[i]->files[j]->path);
         }
     }

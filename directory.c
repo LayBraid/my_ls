@@ -7,7 +7,7 @@
 
 #include "include/directory.h"
 
-int fill_directory(dir *d)
+int fill_directory(dir *d, data_t *data)
 {
     struct stat stats;
     register struct passwd *pw;
@@ -22,10 +22,16 @@ int fill_directory(dir *d)
     if (grp != NULL)
         d->group = grp->gr_name;
     d->user = pw->pw_name;
-    d->modification = fill_time(stats);
+    d->max_link = 0;
+    d->max_size = 0;
+    d->date = convert_ctime_to_date(stats);
     d->perm = get_permissions(stats);
     d->size = (int) stats.st_size;
     d->nb = stats.st_nlink;
+    if (my_int_len(d->nb) > data->max_link)
+        data->max_link = my_int_len(d->nb);
+    if (my_int_len(d->size) > data->max_size)
+        data->max_size = my_int_len(d->size);
     return 0;
 }
 
@@ -49,7 +55,7 @@ int get_directory(data_t* data, char **av, int ac)
         data->directory = malloc(sizeof(dir *) * 1);
         data->directory[0] = malloc(sizeof(dir));
         data->directory[0]->path = ".";
-        fill_directory(data->directory[0]);
+        fill_directory(data->directory[0], data);
         return 1;
     } else
         data->directory = malloc(sizeof(dir *) * data->nb_dir);
@@ -57,7 +63,7 @@ int get_directory(data_t* data, char **av, int ac)
         if (av[i][0] != '-') {
             data->directory[i - nb_skip] = malloc(sizeof(dir));
             data->directory[i - nb_skip]->path = av[i];
-            fill_directory(data->directory[i - nb_skip]);
+            fill_directory(data->directory[i - nb_skip], data);
         } else
             nb_skip++;
     }
