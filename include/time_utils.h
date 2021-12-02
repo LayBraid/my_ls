@@ -10,6 +10,9 @@
 
     #include "my_ls.h"
     #include "time.h"
+    #include "struct.h"
+
+date_t *convert_ctime_to_date(struct stat stats);
 
 char *fill_time(struct stat stats);
 
