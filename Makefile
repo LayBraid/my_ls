@@ -14,6 +14,7 @@ SRC = files.c \
 	  permissions_utils.c \
 	  sort.c \
 	  formating.c \
+	  formating_utils.c \
 	  time_utils.c
 
 TESTS =
