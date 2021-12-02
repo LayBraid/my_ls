@@ -9,7 +9,8 @@
 
 int format_lines(data_t *data)
 {
-    for (int i = 0; i < data->nb_dir; i++)
+    for (int i = 0; i < data->nb_dir; i++) {
+        my_printf("total %d\n", data->directory[i]->total);
         for (int j = 0; j < data->directory[i]->nb_files; j++) {
             my_printf(get_str_file(data->directory[i]),
                       data->directory[i]->files[j]->perm,
@@ -23,6 +24,7 @@ int format_lines(data_t *data)
                       data->directory[i]->files[j]->date->min,
                       data->directory[i]->files[j]->path);
         }
+    }
     return 0;
 }
 

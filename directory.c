@@ -9,14 +9,14 @@
 
 int fill_directory(dir *d, data_t *data)
 {
-    struct stat stats;
+    struct stat *stats = malloc(sizeof(struct stat));
     register struct passwd *pw;
     register uid_t uid;
     struct group *grp;
 
-    if (stat(".", &stats) < 0)
+    if (stat(d->path, stats) == -1)
         my_exit(ERROR_STAT, 84);
-    grp = getgrgid(stats.st_gid);
+    grp = getgrgid(stats->st_gid);
     uid = geteuid();
     pw = getpwuid(uid);
     if (grp != NULL)
@@ -26,8 +26,8 @@ int fill_directory(dir *d, data_t *data)
     d->max_size = 0;
     d->date = convert_ctime_to_date(stats);
     d->perm = get_permissions(stats);
-    d->size = (int) stats.st_size;
-    d->nb = stats.st_nlink;
+    d->size = (int) stats->st_size;
+    d->nb = stats->st_nlink;
     if (my_int_len(d->nb) > data->max_link)
         data->max_link = my_int_len(d->nb);
     if (my_int_len(d->size) > data->max_size)

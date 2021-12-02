@@ -9,25 +9,28 @@
 
 int file_info(data_t *data, int i, int j)
 {
-    struct stat stats;
-    register struct passwd *pw;
-    struct group *grp;
-
-    if (stat(data->directory[i]->files[j]->path, &stats) < 0)
+    struct stat *stats = malloc(sizeof(struct stat));
+    struct passwd *pw;
+    struct group *grp = NULL;
+    if (stat(data->directory[i]->files[j]->path, stats) == -1)
         my_exit(ERROR_STAT, 84);
-    grp = getgrgid(stats.st_gid);
+    grp = getgrgid(stats->st_gid);
+    pw = getpwuid(stats->st_uid);
     if (grp != NULL)
         data->directory[i]->files[j]->group = grp->gr_name;
-    pw = getpwuid(stats.st_uid);
-    data->directory[i]->files[j]->user = pw->pw_name;
-    data->directory[i]->files[j]->size = (int) stats.st_size;
+    if (pw != NULL)
+        data->directory[i]->files[j]->user = pw->pw_name;
+    else
+        data->directory[i]->files[j]->user = "pw == null";
+    data->directory[i]->files[j]->size = (int) stats->st_size;
     data->directory[i]->files[j]->date = convert_ctime_to_date(stats);
-    data->directory[i]->files[j]->nb = stats.st_nlink;
+    data->directory[i]->files[j]->nb = stats->st_nlink;
     data->directory[i]->files[j]->perm = get_permissions(stats);
-    if (my_int_len((int) stats.st_size) > data->directory[i]->max_size)
-        data->directory[i]->max_size = my_int_len((int) stats.st_size);
-    if (my_int_len(stats.st_nlink) > data->directory[i]->max_link)
-        data->directory[i]->max_link = my_int_len(stats.st_nlink);
+    data->directory[i]->total += (int) stats->st_blocks;
+    if (my_int_len((int) stats->st_size) > data->directory[i]->max_size)
+        data->directory[i]->max_size = my_int_len((int) stats->st_size);
+    if (my_int_len(stats->st_nlink) > data->directory[i]->max_link)
+        data->directory[i]->max_link = my_int_len(stats->st_nlink);
     return 0;
 }
 
@@ -69,7 +72,7 @@ int check_files(data_t* data)
         if (opendir(str) == NULL) {
             switch (errno) {
                 case ENOENT:
-                    my_putstr(ERROR_NO_FILE_DIRECTORY);
+                    my_putstr(ERROR_NO_FILE_DIRECTORY); //TODO POUR DOSSIER
                     exit(84);
             }
         }

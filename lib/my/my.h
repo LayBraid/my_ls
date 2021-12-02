@@ -129,4 +129,6 @@ int nb_files_in_path(char *path);
 
 int my_exit(char *reason, int nb);
 
+char *my_strdup(char const *src);
+
 #endif

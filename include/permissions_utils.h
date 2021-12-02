@@ -10,6 +10,6 @@
 
     #include "my_ls.h"
 
-char *get_permissions(struct stat stats);
+char *get_permissions(struct stat *stats);
 
 #endif

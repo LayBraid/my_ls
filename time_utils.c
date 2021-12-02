@@ -49,12 +49,12 @@ int get_int_month(char *str)
     return get_int_month_next(str);
 }
 
-date_t *convert_ctime_to_date(struct stat stats)
+date_t *convert_ctime_to_date(struct stat *stats)
 {
     char *time;
     date_t *date = malloc(sizeof(date_t));
 
-    time = ctime(&stats.st_mtime);
+    time = ctime(&stats->st_mtime);
     date->sec = my_atoi(extract_between(time, 17, 18));
     date->min = my_atoi(extract_between(time, 14, 15));
     date->hour = my_atoi(extract_between(time, 11, 12));
