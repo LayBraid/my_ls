@@ -9,6 +9,7 @@
     #define MY_LS_FORMATING_H
 
     #include "my_ls.h"
+    #include "formating_utils.h"
 
 int format_lines(data_t *data);
 

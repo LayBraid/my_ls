@@ -10,8 +10,8 @@
 int format_lines(data_t *data)
 {
     for (int i = 0; i < data->nb_dir; i++)
-        for (int j = 0; j < data->directory[i]->nb_files; j++)
-            my_printf("%s  %d %s  %s  %d %s % 2d % 2d:% 2d %s\n",
+        for (int j = 0; j < data->directory[i]->nb_files; j++) {
+            my_printf(get_str_file(data->directory[i]),
                       data->directory[i]->files[j]->perm,
                       data->directory[i]->files[j]->nb,
                       data->directory[i]->files[j]->user,
@@ -22,18 +22,14 @@ int format_lines(data_t *data)
                       data->directory[i]->files[j]->date->hour,
                       data->directory[i]->files[j]->date->min,
                       data->directory[i]->files[j]->path);
+        }
     return 0;
 }
 
 int format_lines_directory(data_t *data)
 {
-    char *str = "%s  % ";
-    str = my_strcat(str, my_itoa(data->max_link));
-    str = my_strcat(str, "d %s  %s  % ");
-    str = my_strcat(str, my_itoa(data->max_size));
-    str = my_strcat(str, "d %s % 2d %.2d:%.2d %s\n");
     for (int i = 0; i < data->nb_dir; i++) {
-        my_printf(str,
+        my_printf(get_str_dir(data),
                   data->directory[i]->perm,
                   data->directory[i]->nb,
                   data->directory[i]->user,
