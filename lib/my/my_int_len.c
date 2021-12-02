@@ -10,7 +10,7 @@
 int my_int_len(int nb)
 {
     int length = 1;
-    while (nb > 10) {
+    while (nb > 9) {
         nb /= 10;
         length++;
     }
