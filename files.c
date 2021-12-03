@@ -23,6 +23,7 @@ int file_info(data_t *data, int i, int j)
     else
         data->directory[i]->files[j]->user = "pw == null";
     data->directory[i]->files[j]->size = (int) stats->st_size;
+    data->directory[i]->files[j]->time = stats->st_mtime;
     data->directory[i]->files[j]->date = convert_ctime_to_date(stats);
     data->directory[i]->files[j]->nb = stats->st_nlink;
     data->directory[i]->files[j]->perm = get_permissions(stats);
@@ -47,7 +48,7 @@ int fill_files(data_t *data)
         data->directory[i]->files = malloc(sizeof(file *) * data->
                 directory[i]->nb_files);
         dir = opendir(data->directory[i]->path);
-        while ((dp = readdir(dir)) != NULL) {
+        while ((dp = readdir(dir)) != NULL)
             if (dp->d_name[0] != '.') {
                 data->directory[i]->files[j] = malloc(sizeof(file));
                 data->directory[i]->files[j]->path = dp->d_name;
@@ -55,7 +56,6 @@ int fill_files(data_t *data)
                 file_info(data, i, j);
                 j++;
             }
-        }
     }
     return 0;
 }
@@ -69,14 +69,13 @@ int check_files(data_t* data)
         if (str[my_strlen(str)] != '/')
             str = my_strcat(str, "/");
         str = my_strcat(str, ".");
-        if (opendir(str) == NULL) {
+        if (opendir(str) == NULL)
             switch (errno) {
                 case ENOENT:
                     my_printf("ls: %s: %s", data->directory[i]->path,
                               ERROR_NO_FILE_DIRECTORY);
                     exit(84);
             }
-        }
     }
     return 0;
 }
@@ -89,10 +88,9 @@ int nb_files_in_path(char *path)
 
     if (dir == NULL)
         return (84);
-    while ((dp = readdir(dir)) != NULL) {
+    while ((dp = readdir(dir)) != NULL)
         if (dp->d_name[0] != '.')
             nb++;
-    }
     closedir(dir);
     return nb;
 }

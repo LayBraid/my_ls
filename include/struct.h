@@ -29,6 +29,7 @@ typedef struct file_struct
     char *user;
     char *group;
     int size;
+    long double time;
     date_t *date;
 } file;
 
@@ -43,6 +44,7 @@ typedef struct directory_struct
     char *perm;
     char *user;
     char *group;
+    long double time;
     int size;
     date_t *date;
     file **files;

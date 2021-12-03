@@ -29,6 +29,7 @@ int fill_directory(dir *d, data_t *data)
     d->user = pw->pw_name;
     d->max_link = 0;
     d->max_size = 0;
+    d->time = stats->st_mtime;
     d->date = convert_ctime_to_date(stats);
     d->perm = get_permissions(stats);
     d->size = (int) stats->st_size;

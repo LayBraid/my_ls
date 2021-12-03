@@ -65,6 +65,9 @@ int format_result(data_t *data)
     if (data->r == 1)
         for (int i = 0; i < data->nb_dir; i++)
             rev_files_in_directory(data->directory[i]);
+    if (data->t == 1)
+        for (int i = 0; i < data->nb_dir; i++)
+            sort_files_in_directory_by_date(data->directory[i]);
     if (data->l == 1 && data->d == 0)
         format_lines(data);
     if (data->l == 1 && data->d == 1)
