@@ -110,7 +110,7 @@ int get_directory(data_t* data, char **av, int ac)
     int nb_file = 0;
     int nb_dir = 0;
 
-    if (data->nb_dir == 0) {
+    if (data->nb_dir == 0 && data->nb_files == 0) {
         data->nb_dir = 1;
         data->directory = malloc(sizeof(dir *) * 1);
         data->directory[0] = malloc(sizeof(dir));
@@ -126,14 +126,12 @@ int get_directory(data_t* data, char **av, int ac)
         if (av[i][0] != '-') {
             stat(av[i], stats);
             if (S_ISDIR(stats->st_mode)) {
-                my_printf("ici\n");
                 data->directory[i - nb_skip - nb_file] = malloc(sizeof(dir));
                 data->directory[i - nb_skip - nb_file]->path = av[i];
                 data->directory[i - nb_skip - nb_file]->name = av[i];
                 fill_directory(data->directory[i - nb_skip - nb_file], data);
                 nb_dir++;
             } else {
-                my_printf("là\n");
                 data->files[i - nb_skip - nb_dir] = malloc(sizeof(dir));
                 data->files[i - nb_skip - nb_dir]->path = av[i];
                 data->files[i - nb_skip - nb_dir]->name = av[i];

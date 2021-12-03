@@ -17,6 +17,11 @@ char *get_str_file(dir *d)
     return str;
 }
 
+char *get_str_file_file(file *f)
+{
+    return "%s  %d %s  %s  %d %s % 2d %.2d:%.2d %s\n";
+}
+
 char *get_str_dir(data_t *data)
 {
     char *str = "%s  % ";

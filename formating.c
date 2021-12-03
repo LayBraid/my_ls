@@ -9,6 +9,18 @@
 
 int format_lines(data_t *data)
 {
+    for (int i = 0; i < data->nb_files; i++)
+        my_printf(get_str_file_file(data->files[i]),
+                  data->files[i]->perm,
+                  data->files[i]->nb,
+                  data->files[i]->user,
+                  data->files[i]->group,
+                  data->files[i]->size,
+                  data->files[i]->date->month_str,
+                  data->files[i]->date->day,
+                  data->files[i]->date->hour,
+                  data->files[i]->date->min,
+                  data->files[i]->name);
     for (int i = 0; i < data->nb_dir; i++) {
         my_printf("total %d\n", data->directory[i]->total);
         for (int j = 0; j < data->directory[i]->nb_files; j++) {
@@ -54,9 +66,8 @@ int format_directory(data_t *data)
 
 int format_simple(data_t *data)
 {
-    for (int i = 0; i < data->nb_files; i++) {
+    for (int i = 0; i < data->nb_files; i++)
         my_printf("%s\n", data->files[i]->name);
-    }
     for (int i = 0; i < data->nb_dir; i++) {
         if ((data->nb_files > 0 && data->nb_dir > 0) || data->nb_dir > 1)
             my_printf("\n%s:\n", data->directory[i]->name);

@@ -14,4 +14,6 @@ char *get_str_file(dir *d);
 
 char *get_str_dir(data_t *data);
 
+char *get_str_file_file(file *f);
+
 #endif
