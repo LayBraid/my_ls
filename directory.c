@@ -15,7 +15,12 @@ int fill_directory(dir *d, data_t *data)
     struct group *grp;
 
     if (stat(d->path, stats) == -1)
-        my_exit(ERROR_STAT, 84);
+        switch (errno) {
+            case ENOENT:
+                my_printf("ls: %s: %s", d->path,
+                          ERROR_NO_FILE_DIRECTORY);
+                exit(84);
+        }
     grp = getgrgid(stats->st_gid);
     uid = geteuid();
     pw = getpwuid(uid);

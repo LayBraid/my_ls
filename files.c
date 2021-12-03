@@ -72,7 +72,8 @@ int check_files(data_t* data)
         if (opendir(str) == NULL) {
             switch (errno) {
                 case ENOENT:
-                    my_putstr(ERROR_NO_FILE_DIRECTORY); //TODO POUR DOSSIER
+                    my_printf("ls: %s: %s", data->directory[i]->path,
+                              ERROR_NO_FILE_DIRECTORY);
                     exit(84);
             }
         }

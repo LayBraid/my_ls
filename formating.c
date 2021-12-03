@@ -30,7 +30,7 @@ int format_lines(data_t *data)
 
 int format_lines_directory(data_t *data)
 {
-    for (int i = 0; i < data->nb_dir; i++) {
+    for (int i = 0; i < data->nb_dir; i++)
         my_printf(get_str_dir(data),
                   data->directory[i]->perm,
                   data->directory[i]->nb,
@@ -42,15 +42,13 @@ int format_lines_directory(data_t *data)
                   data->directory[i]->date->hour,
                   data->directory[i]->date->min,
                   data->directory[i]->path);
-    }
     return 0;
 }
 
 int format_directory(data_t *data)
 {
-    for (int i = 0; i < data->nb_dir; i++) {
+    for (int i = 0; i < data->nb_dir; i++)
         my_printf("%s\n", data->directory[i]->path);
-    }
     return 0;
 }
 
