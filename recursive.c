@@ -10,11 +10,13 @@
 int check_for_recursive(dir *d, data_t *data_back)
 {
     data_t* data;
-    char **str = malloc(sizeof(char *) * 3);
+    char **str = malloc(sizeof(char *) * d->nb_files);
     str[0] = "./my_ls ";
     str[1] = get_flags_str(data_back);
-    str[2] = d->path;
 
+    my_printf("\n");
+    for (int i = 0; i < d->nb_files; i++)
+        str[i + 2] = d->files[i]->path;
     if (S_ISDIR(d->stats->st_mode)) {
         data = malloc(sizeof(data_t));
         init_data(data, str);

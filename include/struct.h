@@ -57,7 +57,9 @@ typedef struct directory_struct
 typedef struct all_data
 {
     int nb_dir;
+    int nb_files;
     dir **directory;
+    file **files;
     int R;
     int r;
     int d;

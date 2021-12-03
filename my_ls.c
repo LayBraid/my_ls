@@ -19,8 +19,8 @@ int my_ls(int ac, char **av)
     for (int i = 0; i < data->nb_dir; i++)
         sort_files_in_directory(data->directory[i]);
     format_result(data);
-    //if (data->R == 1)
-    //    flag_recursive(data);
+    if (data->R == 1)
+        flag_recursive(data);
     free(data);
     return 0;
 }

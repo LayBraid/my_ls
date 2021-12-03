@@ -9,6 +9,7 @@
 int init_data(data_t *data, char **av)
 {
     data->nb_dir = nb_dir_in_arg(av);
+    data->nb_files = nb_file_in_arg(av);
     data->R = 0;
     data->r = 0;
     data->d = 0;

@@ -32,7 +32,7 @@
     #include "recursive.h"
 
     #define ERROR_NO_FILE_DIRECTORY "No such file or directory\n"
-    #define ERROR_STAT "Error stat n12\n"
+    #define ERROR_STAT12 "Error stat n12\n"
 
 int my_ls(int ac, char **av);
 

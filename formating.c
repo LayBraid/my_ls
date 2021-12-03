@@ -54,9 +54,17 @@ int format_directory(data_t *data)
 
 int format_simple(data_t *data)
 {
-    for (int i = 0; i < data->nb_dir; i++)
+    for (int i = 0; i < data->nb_files; i++) {
+        my_printf("%s\n", data->files[i]->name);
+    }
+    for (int i = 0; i < data->nb_dir; i++) {
+        if ((data->nb_files > 0 && data->nb_dir > 0) || data->nb_dir > 1)
+            my_printf("\n%s:\n", data->directory[i]->name);
+        else if (data->nb_files == 0 && data->nb_dir > 1)
+            my_printf("%s:\n", data->directory[i]->name);
         for (int j = 0; j < data->directory[i]->nb_files; j++)
             my_printf("%s\n", data->directory[i]->files[j]->name);
+    }
     return 0;
 }
 

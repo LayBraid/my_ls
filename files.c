@@ -12,8 +12,8 @@ int file_info(data_t *data, int i, int j)
     struct stat *stats = malloc(sizeof(struct stat));
     struct passwd *pw;
     struct group *grp = NULL;
-    if (stat(data->directory[i]->files[j]->name, stats) == -1)
-        my_exit(ERROR_STAT, 84);
+    if (stat(data->directory[i]->files[j]->path, stats) == -1)
+        my_exit(ERROR_STAT12, 84);
     grp = getgrgid(stats->st_gid);
     pw = getpwuid(stats->st_uid);
     if (grp != NULL)
@@ -50,11 +50,11 @@ int fill_files(data_t *data)
         data->directory[i]->files = malloc(sizeof(file *) * data->
                 directory[i]->nb_files);
         dir = opendir(data->directory[i]->path);
-        path_dir = data->directory[i]->path;
-        path_dir = my_strcat(path_dir,"/");
         while ((dp = readdir(dir)) != NULL)
             if (dp->d_name[0] != '.') {
                 data->directory[i]->files[j] = malloc(sizeof(file));
+                path_dir = data->directory[i]->path;
+                path_dir = my_strcat(path_dir,"/");
                 path_dir = my_strcat(path_dir, dp->d_name);
                 data->directory[i]->files[j]->path = path_dir;
                 data->directory[i]->files[j]->name = dp->d_name;
