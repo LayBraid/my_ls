@@ -12,7 +12,7 @@ int file_info(data_t *data, int i, int j)
     struct stat *stats = malloc(sizeof(struct stat));
     struct passwd *pw;
     struct group *grp = NULL;
-    if (stat(data->directory[i]->files[j]->path, stats) == -1)
+    if (stat(data->directory[i]->files[j]->name, stats) == -1)
         my_exit(ERROR_STAT, 84);
     grp = getgrgid(stats->st_gid);
     pw = getpwuid(stats->st_uid);
