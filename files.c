@@ -22,6 +22,7 @@ int file_info(data_t *data, int i, int j)
         data->directory[i]->files[j]->user = pw->pw_name;
     else
         data->directory[i]->files[j]->user = "pw == null";
+    data->directory[i]->files[j]->stats = stats;
     data->directory[i]->files[j]->size = (int) stats->st_size;
     data->directory[i]->files[j]->time = stats->st_mtime;
     data->directory[i]->files[j]->date = convert_ctime_to_date(stats);
@@ -40,6 +41,7 @@ int fill_files(data_t *data)
     DIR *dir;
     struct dirent *dp;
     int j;
+    char *path_dir;
 
     for (int i = 0; i < data->nb_dir; i++) {
         j = 0;
@@ -48,10 +50,14 @@ int fill_files(data_t *data)
         data->directory[i]->files = malloc(sizeof(file *) * data->
                 directory[i]->nb_files);
         dir = opendir(data->directory[i]->path);
+        path_dir = data->directory[i]->path;
+        path_dir = my_strcat(path_dir,"/");
         while ((dp = readdir(dir)) != NULL)
             if (dp->d_name[0] != '.') {
                 data->directory[i]->files[j] = malloc(sizeof(file));
-                data->directory[i]->files[j]->path = dp->d_name;
+                path_dir = my_strcat(path_dir, dp->d_name);
+                data->directory[i]->files[j]->path = path_dir;
+                data->directory[i]->files[j]->name = dp->d_name;
                 data->directory[i]->files[j]->type = dp->d_type;
                 file_info(data, i, j);
                 j++;

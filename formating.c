@@ -22,7 +22,7 @@ int format_lines(data_t *data)
                       data->directory[i]->files[j]->date->day,
                       data->directory[i]->files[j]->date->hour,
                       data->directory[i]->files[j]->date->min,
-                      data->directory[i]->files[j]->path);
+                      data->directory[i]->files[j]->name);
         }
     }
     return 0;
@@ -41,14 +41,14 @@ int format_lines_directory(data_t *data)
                   data->directory[i]->date->day,
                   data->directory[i]->date->hour,
                   data->directory[i]->date->min,
-                  data->directory[i]->path);
+                  data->directory[i]->name);
     return 0;
 }
 
 int format_directory(data_t *data)
 {
     for (int i = 0; i < data->nb_dir; i++)
-        my_printf("%s\n", data->directory[i]->path);
+        my_printf("%s\n", data->directory[i]->name);
     return 0;
 }
 
@@ -56,12 +56,14 @@ int format_simple(data_t *data)
 {
     for (int i = 0; i < data->nb_dir; i++)
         for (int j = 0; j < data->directory[i]->nb_files; j++)
-            my_printf("%s\n", data->directory[i]->files[j]->path);
+            my_printf("%s\n", data->directory[i]->files[j]->name);
     return 0;
 }
 
 int format_result(data_t *data)
 {
+    if (data->d == 1)
+        data->r = 0;
     if (data->r == 1)
         for (int i = 0; i < data->nb_dir; i++)
             rev_files_in_directory(data->directory[i]);

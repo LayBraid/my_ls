@@ -23,6 +23,7 @@ typedef struct date_struct
 typedef struct file_struct
 {
     char *path;
+    char *name;
     int nb;
     int type;
     char *perm;
@@ -31,11 +32,13 @@ typedef struct file_struct
     int size;
     long double time;
     date_t *date;
+    struct stat *stats;
 } file;
 
 typedef struct directory_struct
 {
     char *path;
+    char *name;
     int nb_files;
     int total;
     int max_size;
@@ -48,6 +51,7 @@ typedef struct directory_struct
     int size;
     date_t *date;
     file **files;
+    struct stat *stats;
 } dir;
 
 typedef struct all_data

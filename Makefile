@@ -13,6 +13,8 @@ SRC = files.c \
 	  flags.c \
 	  permissions_utils.c \
 	  sort.c \
+	  recursive.c \
+	  my_ls.c \
 	  formating.c \
 	  formating_utils.c \
 	  time_utils.c

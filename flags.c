@@ -42,3 +42,19 @@ int get_flags(data_t *data, char **av, int ac)
             put_flags(data, av[i]);
     return 0;
 }
+
+char *get_flags_str(data_t *data)
+{
+    char *str = "";
+    if (data->R == 1)
+        str = my_strcat(str, "-R ");
+    if (data->r == 1)
+        str = my_strcat(str, "-r ");
+    if (data->t == 1)
+        str = my_strcat(str, "-t ");
+    if (data->l == 1)
+        str = my_strcat(str, "-l ");
+    if (data->d == 1)
+        str = my_strcat(str, "-d ");
+    return str;
+}

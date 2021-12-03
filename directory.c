@@ -29,6 +29,7 @@ int fill_directory(dir *d, data_t *data)
     d->user = pw->pw_name;
     d->max_link = 0;
     d->max_size = 0;
+    d->stats = stats;
     d->time = stats->st_mtime;
     d->date = convert_ctime_to_date(stats);
     d->perm = get_permissions(stats);
@@ -45,10 +46,9 @@ int nb_dir_in_arg(char **av)
 {
     int nb = 0;
 
-    for (int i = 1; av[i]; i++) {
+    for (int i = 1; av[i]; i++)
         if (av[i][0] != '-')
             nb++;
-    }
     return nb;
 }
 
@@ -61,6 +61,7 @@ int get_directory(data_t* data, char **av, int ac)
         data->directory = malloc(sizeof(dir *) * 1);
         data->directory[0] = malloc(sizeof(dir));
         data->directory[0]->path = ".";
+        data->directory[0]->name = ".";
         fill_directory(data->directory[0], data);
         return 1;
     } else
@@ -69,6 +70,7 @@ int get_directory(data_t* data, char **av, int ac)
         if (av[i][0] != '-') {
             data->directory[i - nb_skip] = malloc(sizeof(dir));
             data->directory[i - nb_skip]->path = av[i];
+            data->directory[i - nb_skip]->name = av[i];
             fill_directory(data->directory[i - nb_skip], data);
         } else
             nb_skip++;

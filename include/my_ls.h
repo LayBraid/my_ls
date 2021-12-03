@@ -29,10 +29,11 @@
     #include "sort.h"
     #include "formating.h"
     #include "time_utils.h"
+    #include "recursive.h"
 
     #define ERROR_NO_FILE_DIRECTORY "No such file or directory\n"
     #define ERROR_STAT "Error stat n12\n"
 
-int my_print_verif(data_t *data);
+int my_ls(int ac, char **av);
 
 #endif
