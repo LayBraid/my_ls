@@ -22,6 +22,10 @@ int format_lines(data_t *data)
                   data->files[i]->date->min,
                   data->files[i]->name);
     for (int i = 0; i < data->nb_dir; i++) {
+        if ((data->nb_files > 0 && data->nb_dir > 0) || data->nb_dir > 1)
+            my_printf("\n%s:\n", data->directory[i]->name);
+        else if (data->nb_files == 0 && data->nb_dir > 1)
+            my_printf("%s:\n", data->directory[i]->name);
         my_printf("total %d\n", data->directory[i]->total);
         for (int j = 0; j < data->directory[i]->nb_files; j++) {
             my_printf(get_str_file(data->directory[i]),
