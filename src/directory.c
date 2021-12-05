@@ -17,7 +17,7 @@ int fill_directory(dir *d, data_t *data)
     if (stat(d->path, stats) == -1)
         errno_print(d->name);
     grp = getgrgid(stats->st_gid);
-    uid = geteuid();
+    uid = stats->st_uid;
     pw = getpwuid(uid);
     if (grp != NULL)
         d->group = grp->gr_name;
@@ -40,7 +40,7 @@ int fill_my_file(file *f, data_t *data)
     if (stat(f->path, stats) == -1)
         errno_print(f->name);
     grp = getgrgid(stats->st_gid);
-    uid = geteuid();
+    uid = stats->st_uid;
     pw = getpwuid(uid);
     if (grp != NULL)
         f->group = grp->gr_name;
