@@ -5,7 +5,7 @@
 ** No file there , just an epitech header example
 */
 
-#include "include/formating.h"
+#include "../include/formating.h"
 
 int format_lines(data_t *data)
 {

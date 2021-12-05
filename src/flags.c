@@ -5,7 +5,7 @@
 ** No file there , just an epitech header example
 */
 
-#include "include/flags.h"
+#include "../include/flags.h"
 
 int put_flags(data_t *data, char *str)
 {

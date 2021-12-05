@@ -5,7 +5,7 @@
 ** No file there , just an epitech header example
 */
 
-#include "include/directory.h"
+#include "../include/directory.h"
 
 int fill_directory(dir *d, data_t *data)
 {

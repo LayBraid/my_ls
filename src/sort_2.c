@@ -5,7 +5,7 @@
 ** No file there , just an epitech header example
 */
 
-#include "include/sort.h"
+#include "../include/sort.h"
 
 int rev_files_in_data(data_t *d)
 {

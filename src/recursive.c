@@ -5,7 +5,7 @@
 ** No file there , just an epitech header example
 */
 
-#include "include/recursive.h"
+#include "../include/recursive.h"
 
 char **get_str(dir *d)
 {

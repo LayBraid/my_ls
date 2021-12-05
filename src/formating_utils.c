@@ -5,7 +5,7 @@
 ** No file there , just an epitech header example
 */
 
-#include "include/formating_utils.h"
+#include "../include/formating_utils.h"
 
 char *get_str_file(dir *d)
 {

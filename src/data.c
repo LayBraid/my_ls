@@ -4,7 +4,7 @@
 ** File description:
 ** No file there , just an epitech header example
 */
-#include "include/data.h"
+#include "../include/data.h"
 
 int init_data(data_t *data, char **av, int ac)
 {

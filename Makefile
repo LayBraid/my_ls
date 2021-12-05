@@ -5,23 +5,23 @@
 ## No file there , just an epitech header example
 ##
 
-MAIN = main.c
+MAIN = src/main.c
 
-SRC = files.c \
-	  files_utils.c \
-	  directory.c \
-	  directory_utils.c \
-	  data.c \
-	  flags.c \
-	  permissions_utils.c \
-	  sort.c \
-	  sort_2.c \
-	  formating_utils_2.c \
-	  recursive.c \
-	  my_ls.c \
-	  formating.c \
-	  formating_utils.c \
-	  time_utils.c
+SRC = src/files.c \
+	  src/files_utils.c \
+	  src/directory.c \
+	  src/directory_utils.c \
+	  src/data.c \
+	  src/flags.c \
+	  src/permissions_utils.c \
+	  src/sort.c \
+	  src/sort_2.c \
+	  src/formating_utils_2.c \
+	  src/recursive.c \
+	  src/my_ls.c \
+	  src/formating.c \
+	  src/formating_utils.c \
+	  src/time_utils.c
 
 TESTS =
 
@@ -44,7 +44,7 @@ fclean:
 	rm -f unit-tests
 
 clean:
-	rm -f *.o
+	rm -f src/*.o
 	rm -rf *.gcda
 	rm -rf *.gcno
 	rm -rf *.c.gcov

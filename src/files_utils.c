@@ -5,7 +5,7 @@
 ** No file there , just an epitech header example
 */
 
-#include "include/files.h"
+#include "../include/files.h"
 
 char *get_path(dir *d, struct dirent *dp)
 {

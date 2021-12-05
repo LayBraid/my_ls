@@ -5,7 +5,7 @@
 ** No file there , just an epitech header example
 */
 
-#include "include/directory.h"
+#include "../include/directory.h"
 
 int errno_print(char *str)
 {

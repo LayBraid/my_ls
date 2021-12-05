@@ -5,7 +5,7 @@
 ** No file there , just an epitech header example
 */
 
-#include "include/time_utils.h"
+#include "../include/time_utils.h"
 
 char *extract_between(char *str, int start, int stop)
 {
