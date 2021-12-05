@@ -26,8 +26,6 @@ int put_flags(data_t *data, char *str)
             case 't':
                 data->t = 1;
                 break;
-            default:
-                continue;
         }
     }
     return 0;

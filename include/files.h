@@ -19,4 +19,6 @@ int nb_files_in_path(char *path);
 
 int nb_dir_in_path(char *path);
 
+int file_info(data_t *data, int i, int j);
+
 #endif

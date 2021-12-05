@@ -8,6 +8,7 @@
 MAIN = main.c
 
 SRC = files.c \
+	  files_utils.c \
 	  directory.c \
 	  directory_utils.c \
 	  data.c \

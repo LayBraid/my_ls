@@ -7,6 +7,19 @@
 
 #include "include/files.h"
 
+int file_info_next(data_t *data, struct stat *stats, int i, int j)
+{
+    data->directory[i]->files[j]->date = convert_ctime_to_date(stats);
+    data->directory[i]->files[j]->nb = stats->st_nlink;
+    data->directory[i]->files[j]->perm = get_permissions(stats);
+    data->directory[i]->total += (int) stats->st_blocks;
+    if (my_int_len((int) stats->st_size) > data->directory[i]->max_size)
+        data->directory[i]->max_size = my_int_len((int) stats->st_size);
+    if (my_int_len(stats->st_nlink) > data->directory[i]->max_link)
+        data->directory[i]->max_link = my_int_len(stats->st_nlink);
+    return 0;
+}
+
 int file_info(data_t *data, int i, int j)
 {
     struct stat *stats = malloc(sizeof(struct stat));
@@ -25,44 +38,7 @@ int file_info(data_t *data, int i, int j)
     data->directory[i]->files[j]->stats = stats;
     data->directory[i]->files[j]->size = (int) stats->st_size;
     data->directory[i]->files[j]->time = stats->st_mtime;
-    data->directory[i]->files[j]->date = convert_ctime_to_date(stats);
-    data->directory[i]->files[j]->nb = stats->st_nlink;
-    data->directory[i]->files[j]->perm = get_permissions(stats);
-    data->directory[i]->total += (int) stats->st_blocks;
-    if (my_int_len((int) stats->st_size) > data->directory[i]->max_size)
-        data->directory[i]->max_size = my_int_len((int) stats->st_size);
-    if (my_int_len(stats->st_nlink) > data->directory[i]->max_link)
-        data->directory[i]->max_link = my_int_len(stats->st_nlink);
-    return 0;
-}
-
-int fill_files(data_t *data)
-{
-    DIR *dir;
-    struct dirent *dp;
-    int j;
-    char *path_dir;
-
-    for (int i = 0; i < data->nb_dir; i++) {
-        j = 0;
-        data->directory[i]->nb_files = nb_files_in_path(data->
-                directory[i]->path);
-        data->directory[i]->files = malloc(sizeof(file *) * data->
-                directory[i]->nb_files);
-        dir = opendir(data->directory[i]->path);
-        while ((dp = readdir(dir)) != NULL)
-            if (dp->d_name[0] != '.') {
-                data->directory[i]->files[j] = malloc(sizeof(file));
-                path_dir = data->directory[i]->path;
-                path_dir = my_strcat(path_dir,"/");
-                path_dir = my_strcat(path_dir, dp->d_name);
-                data->directory[i]->files[j]->path = path_dir;
-                data->directory[i]->files[j]->name = dp->d_name;
-                data->directory[i]->files[j]->type = dp->d_type;
-                file_info(data, i, j);
-                j++;
-            }
-    }
+    file_info_next(data, stats, i, j);
     return 0;
 }
 
