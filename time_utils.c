@@ -32,6 +32,7 @@ int get_int_month_next(char *str)
         return 12;
     return 0;
 }
+
 int get_int_month(char *str)
 {
     if (my_strcmp(str, "Jan") == 0)

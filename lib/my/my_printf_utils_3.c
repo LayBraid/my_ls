@@ -6,7 +6,6 @@
 */
 
 #include "my.h"
-#include "printf.h"
 
 void my_printf_string_precision(char *str, va_list param, int i)
 {

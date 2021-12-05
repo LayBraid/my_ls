@@ -14,6 +14,6 @@ int put_flags(data_t *data, char *str);
 
 int get_flags(data_t *data, char **av, int ac);
 
-char *get_flags_str(data_t *data);
+int switch_flags(data_t *data, data_t *data_back);
 
 #endif

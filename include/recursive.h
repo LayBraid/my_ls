@@ -12,6 +12,6 @@
 
 int check_for_recursive(dir *d, data_t *data_back);
 
-int flag_recursive(data_t *data);
+int flag_recursive(dir *d, data_t *data);
 
 #endif

@@ -19,6 +19,8 @@ char *get_str_file(dir *d)
 
 char *get_str_file_file(file *f)
 {
+    (void) f;
+
     return "%s  %d %s  %s  %d %s % 2d %.2d:%.2d %s\n";
 }
 

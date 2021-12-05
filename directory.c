@@ -18,7 +18,7 @@ int fill_directory(dir *d, data_t *data)
         switch (errno) {
             case ENOENT:
                 my_printf("ls: %s: %s", d->name,
-                          ERROR_NO_FILE_DIRECTORY);
+                    ERROR_NO_FILE_DIRECTORY);
                 exit(84);
         }
     grp = getgrgid(stats->st_gid);
@@ -53,7 +53,7 @@ int fill_my_file(file *f, data_t *data)
         switch (errno) {
             case ENOENT:
                 my_printf("ls: %s: %s", f->name,
-                          ERROR_NO_FILE_DIRECTORY);
+                    ERROR_NO_FILE_DIRECTORY);
                 exit(84);
         }
     grp = getgrgid(stats->st_gid);
@@ -78,25 +78,29 @@ int fill_my_file(file *f, data_t *data)
 int nb_dir_in_arg(char **av)
 {
     int nb = 0;
-    struct stat *stats = malloc(sizeof(struct stat));
+    struct stat *stats;
 
     for (int i = 1; av[i]; i++) {
+        stats = malloc(sizeof(struct stat));
         stat(av[i], stats);
-        if (av[i][0] != '-' && S_ISDIR(stats->st_mode)) {
+        if (S_ISDIR(stats->st_mode)) {
             nb++;
         }
     }
     return nb;
 }
 
-int nb_file_in_arg(char **av)
+int nb_file_in_arg(char **av, int ac)
 {
     int nb = 0;
-    struct stat *stats = malloc(sizeof(struct stat));
+    struct stat *stats;
 
-    for (int i = 1; av[i]; i++) {
+    for (int i = 1; i < ac; i++) {
+        stats = malloc(sizeof(struct stat));
         stat(av[i], stats);
-        if (av[i][0] != '-' && !S_ISDIR(stats->st_mode)) {
+        if (av[i][0] == '-')
+            continue;
+        if (!S_ISDIR(stats->st_mode)) {
             nb++;
         }
     }
@@ -105,7 +109,7 @@ int nb_file_in_arg(char **av)
 
 int get_directory(data_t* data, char **av, int ac)
 {
-    struct stat *stats = malloc(sizeof(struct stat));
+    struct stat *stats;
     int nb_skip = 1;
     int nb_file = 0;
     int nb_dir = 0;
@@ -124,6 +128,7 @@ int get_directory(data_t* data, char **av, int ac)
     }
     for (int i = 1; i < ac; i++) {
         if (av[i][0] != '-') {
+            stats = malloc(sizeof(struct stat));
             stat(av[i], stats);
             if (S_ISDIR(stats->st_mode)) {
                 data->directory[i - nb_skip - nb_file] = malloc(sizeof(dir));
@@ -138,7 +143,7 @@ int get_directory(data_t* data, char **av, int ac)
                 fill_my_file(data->files[i - nb_skip - nb_dir], data);
                 nb_file++;
             }
-        } else
+        } else //TODO REDUIRE FONCTION
             nb_skip++;
     }
     return 0;

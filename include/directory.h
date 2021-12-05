@@ -13,7 +13,7 @@
 
 int nb_dir_in_arg(char **av);
 
-int nb_file_in_arg(char **av);
+int nb_file_in_arg(char **av, int ac);
 
 int get_directory(data_t* data, char **av, int ac);
 

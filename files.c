@@ -74,7 +74,6 @@ int check_files(data_t* data)
         str = data->directory[i]->path;
         if (str[my_strlen(str)] != '/')
             str = my_strcat(str, "/");
-        str = my_strcat(str, ".");
         if (opendir(str) == NULL)
             switch (errno) {
                 case ENOENT:
@@ -97,6 +96,30 @@ int nb_files_in_path(char *path)
     while ((dp = readdir(dir)) != NULL)
         if (dp->d_name[0] != '.')
             nb++;
+    closedir(dir);
+    return nb;
+}
+
+int nb_dir_in_path(char *path)
+{
+    int nb = 0;
+    DIR *dir = opendir(path);
+    char *str;
+    struct dirent *dp;
+    struct stat *stats;
+
+    if (dir == NULL)
+        return (84);
+    while ((dp = readdir(dir)) != NULL) {
+        stats = malloc(sizeof(struct stat));
+        str = path;
+        str = my_strcat_c(str, '/');
+        str = my_strcat(str, dp->d_name);
+        if (stat(str, stats) == -1)
+            my_exit(ERROR_STAT12, 84);
+        if (S_ISDIR(stats->st_mode) && dp->d_name[0] != '.')
+            nb++;
+    }
     closedir(dir);
     return nb;
 }

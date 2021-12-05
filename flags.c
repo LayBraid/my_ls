@@ -43,18 +43,12 @@ int get_flags(data_t *data, char **av, int ac)
     return 0;
 }
 
-char *get_flags_str(data_t *data)
+int switch_flags(data_t *data, data_t *data_back)
 {
-    char *str = "";
-    if (data->R == 1)
-        str = my_strcat(str, "-R ");
-    if (data->r == 1)
-        str = my_strcat(str, "-r ");
-    if (data->t == 1)
-        str = my_strcat(str, "-t ");
-    if (data->l == 1)
-        str = my_strcat(str, "-l ");
-    if (data->d == 1)
-        str = my_strcat(str, "-d ");
-    return str;
+    data->R = data_back->R;
+    data->r = data_back->r;
+    data->t = data_back->t;
+    data->l = data_back->l;
+    data->d = data_back->d;
+    return 0;
 }

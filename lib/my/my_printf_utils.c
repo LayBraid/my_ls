@@ -6,7 +6,7 @@
 */
 
 #include "my.h"
-#include "printf.h"
+
 void my_printf_char(char *str, va_list param, int i)
 {
     if (str[0] != 'c' || i < 0)

@@ -6,10 +6,11 @@
 */
 #include "include/data.h"
 
-int init_data(data_t *data, char **av)
+int init_data(data_t *data, char **av, int ac)
 {
     data->nb_dir = nb_dir_in_arg(av);
-    data->nb_files = nb_file_in_arg(av);
+    data->nb_files = nb_file_in_arg(av, ac);
+    data->av = av;
     data->R = 0;
     data->r = 0;
     data->d = 0;

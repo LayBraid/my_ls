@@ -6,7 +6,6 @@
 */
 
 #include "my.h"
-#include "printf.h"
 
 void search_next_flag(char *p, va_list param, int i, all_flags *my_flags)
 {

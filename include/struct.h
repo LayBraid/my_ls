@@ -60,6 +60,7 @@ typedef struct all_data
     int nb_files;
     dir **directory;
     file **files;
+    char **av;
     int R;
     int r;
     int d;

@@ -10,6 +10,6 @@
 
     #include "my_ls.h"
 
-int init_data(data_t *data, char **av);
+int init_data(data_t *data, char **av, int ac);
 
 #endif
