@@ -9,11 +9,13 @@ MAIN = main.c
 
 SRC = files.c \
 	  directory.c \
+	  directory_utils.c \
 	  data.c \
 	  flags.c \
 	  permissions_utils.c \
 	  sort.c \
 	  sort_2.c \
+	  formating_utils_2.c \
 	  recursive.c \
 	  my_ls.c \
 	  formating.c \

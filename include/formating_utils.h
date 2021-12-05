@@ -16,4 +16,10 @@ char *get_str_dir(data_t *data);
 
 char *get_str_file_file(file *f);
 
+int format_print_skip(data_t *data, int i);
+
+int the_printf_line_file(data_t *data);
+
+int the_printf_line_dir(data_t *data, int i);
+
 #endif

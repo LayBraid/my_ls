@@ -22,3 +22,18 @@ int rev_files_in_data(data_t *d)
     }
     return 0;
 }
+
+int format_sort(data_t *data)
+{
+    if (data->r == 1) {
+        rev_files_in_data(data);
+        for (int i = 0; i < data->nb_dir; i++)
+            rev_files_in_directory(data->directory[i]);
+    }
+    if (data->t == 1) {
+        for (int i = 0; i < data->nb_dir; i++)
+            sort_files_in_directory_by_date(data->directory[i]);
+        sort_files_in_data_by_date(data);
+    }
+    return 0;
+}

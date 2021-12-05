@@ -15,12 +15,7 @@ int fill_directory(dir *d, data_t *data)
     struct group *grp;
 
     if (stat(d->path, stats) == -1)
-        switch (errno) {
-            case ENOENT:
-                my_printf("ls: %s: %s", d->name,
-                    ERROR_NO_FILE_DIRECTORY);
-                exit(84);
-        }
+        errno_print(d->name);
     grp = getgrgid(stats->st_gid);
     uid = geteuid();
     pw = getpwuid(uid);
@@ -31,14 +26,7 @@ int fill_directory(dir *d, data_t *data)
     d->max_size = 0;
     d->stats = stats;
     d->time = stats->st_mtime;
-    d->date = convert_ctime_to_date(stats);
-    d->perm = get_permissions(stats);
-    d->size = (int) stats->st_size;
-    d->nb = stats->st_nlink;
-    if (my_int_len(d->nb) > data->max_link)
-        data->max_link = my_int_len(d->nb);
-    if (my_int_len(d->size) > data->max_size)
-        data->max_size = my_int_len(d->size);
+    next_fill_dir(d, stats, data);
     return 0;
 }
 
@@ -50,12 +38,7 @@ int fill_my_file(file *f, data_t *data)
     struct group *grp;
 
     if (stat(f->path, stats) == -1)
-        switch (errno) {
-            case ENOENT:
-                my_printf("ls: %s: %s", f->name,
-                    ERROR_NO_FILE_DIRECTORY);
-                exit(84);
-        }
+        errno_print(f->name);
     grp = getgrgid(stats->st_gid);
     uid = geteuid();
     pw = getpwuid(uid);
@@ -65,13 +48,7 @@ int fill_my_file(file *f, data_t *data)
     f->stats = stats;
     f->time = stats->st_mtime;
     f->date = convert_ctime_to_date(stats);
-    f->perm = get_permissions(stats);
-    f->size = (int) stats->st_size;
-    f->nb = stats->st_nlink;
-    if (my_int_len(f->nb) > data->max_link)
-        data->max_link = my_int_len(f->nb);
-    if (my_int_len(f->size) > data->max_size)
-        data->max_size = my_int_len(f->size);
+    fill_next_file(f, stats, data);
     return 0;
 }
 
@@ -109,11 +86,6 @@ int nb_file_in_arg(char **av, int ac)
 
 int get_directory(data_t* data, char **av, int ac)
 {
-    struct stat *stats;
-    int nb_skip = 1;
-    int nb_file = 0;
-    int nb_dir = 0;
-
     if (data->nb_dir == 0 && data->nb_files == 0) {
         data->nb_dir = 1;
         data->directory = malloc(sizeof(dir *) * 1);
@@ -126,25 +98,6 @@ int get_directory(data_t* data, char **av, int ac)
         data->directory = malloc(sizeof(dir *) * data->nb_dir);
         data->files = malloc(sizeof(file *) * data->nb_files);
     }
-    for (int i = 1; i < ac; i++) {
-        if (av[i][0] != '-') {
-            stats = malloc(sizeof(struct stat));
-            stat(av[i], stats);
-            if (S_ISDIR(stats->st_mode)) {
-                data->directory[i - nb_skip - nb_file] = malloc(sizeof(dir));
-                data->directory[i - nb_skip - nb_file]->path = av[i];
-                data->directory[i - nb_skip - nb_file]->name = av[i];
-                fill_directory(data->directory[i - nb_skip - nb_file], data);
-                nb_dir++;
-            } else {
-                data->files[i - nb_skip - nb_dir] = malloc(sizeof(dir));
-                data->files[i - nb_skip - nb_dir]->path = av[i];
-                data->files[i - nb_skip - nb_dir]->name = av[i];
-                fill_my_file(data->files[i - nb_skip - nb_dir], data);
-                nb_file++;
-            }
-        } else //TODO REDUIRE FONCTION
-            nb_skip++;
-    }
+    get_directory_next(data, av, ac);
     return 0;
 }

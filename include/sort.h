@@ -22,4 +22,6 @@ int sort_files_in_data_by_date(data_t *d);
 
 int rev_files_in_data(data_t *d);
 
+int format_sort(data_t *data);
+
 #endif
