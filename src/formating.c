@@ -24,16 +24,16 @@ int format_lines_directory(data_t *data)
 {
     for (int i = 0; i < data->nb_dir; i++)
         my_printf(get_str_dir(data),
-                  data->directory[i]->perm,
-                  data->directory[i]->nb,
-                  data->directory[i]->user,
-                  data->directory[i]->group,
-                  data->directory[i]->size,
-                  data->directory[i]->date->month_str,
-                  data->directory[i]->date->day,
-                  data->directory[i]->date->hour,
-                  data->directory[i]->date->min,
-                  data->directory[i]->name);
+            data->directory[i]->perm,
+            data->directory[i]->nb,
+            data->directory[i]->user,
+            data->directory[i]->group,
+            data->directory[i]->size,
+            data->directory[i]->date->month_str,
+            data->directory[i]->date->day,
+            data->directory[i]->date->hour,
+            data->directory[i]->date->min,
+            data->directory[i]->name);
     return 0;
 }
 

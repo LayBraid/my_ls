@@ -34,7 +34,8 @@ void search_flag(char *str, va_list param, int i, all_flags *my_flags)
             return my_flags->simple[j]->function(p, param, i);
     }
     for (int j = 0; j < 8; j++) {
-        if (my_flags->point[j]->flag == p[my_strlen(p) - 1] && (p[0] == '.' || p[0] == '0'))
+        if (my_flags->point[j]->flag == p[my_strlen(p) - 1] &&
+            (p[0] == '.' || p[0] == '0'))
             return my_flags->point[j]->function(p, param, i);
     }
     for (int j = 0; j < 3; j++) {

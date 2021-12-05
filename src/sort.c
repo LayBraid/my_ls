@@ -65,7 +65,6 @@ int sort_files_in_data(data_t *d)
     return 0;
 }
 
-
 int sort_files_in_data_by_date(data_t *d)
 {
     file *tmp;

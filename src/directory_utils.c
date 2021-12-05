@@ -12,7 +12,7 @@ int errno_print(char *str)
     switch (errno) {
         case ENOENT:
             my_printf("ls: %s: %s", str,
-                      ERROR_NO_FILE_DIRECTORY);
+                ERROR_NO_FILE_DIRECTORY);
             exit(84);
     }
     return 0;
@@ -43,20 +43,20 @@ int fill_next_file(file *f, struct stat *stats, data_t *data)
     return 0;
 }
 
-int get_directory_final(data_t* data, char **av, int *array, struct stat *stats)
+int get_directory_final(data_t* data, char **av, int *a, struct stat *stats)
 {
     if (S_ISDIR(stats->st_mode)) {
-        data->directory[array[3] - array[0] - array[1]] = malloc(sizeof(dir));
-        data->directory[array[3] - array[0] - array[1]]->path = av[array[3]];
-        data->directory[array[3] - array[0] - array[1]]->name = av[array[3]];
-        fill_directory(data->directory[array[3] - array[0] - array[1]], data);
-        array[2]++;
+        data->directory[a[3] - a[0] - a[1]] = malloc(sizeof(dir));
+        data->directory[a[3] - a[0] - a[1]]->path = av[a[3]];
+        data->directory[a[3] - a[0] - a[1]]->name = av[a[3]];
+        fill_directory(data->directory[a[3] - a[0] - a[1]], data);
+        a[2]++;
     } else {
-        data->files[array[3] - array[0] - array[2]] = malloc(sizeof(dir));
-        data->files[array[3] - array[0] - array[2]]->path = av[array[3]];
-        data->files[array[3] - array[0] - array[2]]->name = av[array[3]];
-        fill_my_file(data->files[array[3] - array[0] - array[2]], data);
-        array[1]++;
+        data->files[a[3] - a[0] - a[2]] = malloc(sizeof(dir));
+        data->files[a[3] - a[0] - a[2]]->path = av[a[3]];
+        data->files[a[3] - a[0] - a[2]]->name = av[a[3]];
+        fill_my_file(data->files[a[3] - a[0] - a[2]], data);
+        a[1]++;
     }
     return 0;
 }
@@ -64,18 +64,18 @@ int get_directory_final(data_t* data, char **av, int *array, struct stat *stats)
 int get_directory_next(data_t* data, char **av, int ac)
 {
     struct stat *stats;
-    int array[4] = {0};
-    array[0] = 1;
-    array[1] = 0;
-    array[2] = 0;
+    int a[4] = {0};
+    a[0] = 1;
+    a[1] = 0;
+    a[2] = 0;
 
-    for (array[3] = 1; array[3] < ac; array[3]++) {
-        if (av[array[3]][0] != '-') {
+    for (a[3] = 1; a[3] < ac; a[3]++) {
+        if (av[a[3]][0] != '-') {
             stats = malloc(sizeof(struct stat));
-            stat(av[array[3]], stats);
-            get_directory_final(data, av, array, stats);
+            stat(av[a[3]], stats);
+            get_directory_final(data, av, a, stats);
         } else
-            array[0]++;
+            a[0]++;
     }
     return 0;
 }

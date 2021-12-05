@@ -54,7 +54,7 @@ int check_files(data_t* data)
             switch (errno) {
                 case ENOENT:
                     my_printf("ls: %s: %s", data->directory[i]->path,
-                              ERROR_NO_FILE_DIRECTORY);
+                        ERROR_NO_FILE_DIRECTORY);
                     exit(84);
             }
     }
