@@ -18,7 +18,7 @@ char *my_itoa(int nb)
         result = my_strcat_c(result, '-');
         nb = nb * (-1);
     }
-    while (p * 10  <= nb)
+    while (p * 10 <= nb)
         p = p * 10;
     to_keep = nb;
     while (p > 1) {

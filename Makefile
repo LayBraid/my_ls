@@ -41,7 +41,7 @@ fclean:
 	cd lib/my && make fclean
 	make clean
 	rm -f $(NAME)
-	rm -f unit-tests
+	rm -f u
 
 clean:
 	rm -f src/*.o
@@ -54,7 +54,7 @@ re:
 	make
 
 tests_run:
-	gcc $(SRC) $(TESTS_SRC) $(SRC_LIB) $(CFLAGS) -lcriterion -o./unit-tests --coverage
+	gcc $(SRC) $(TESTS_SRC) $(SRC_LIB) $(CFLAGS) -lcriterion -o./u --coverage
 	./unit-tests
 
 debug:

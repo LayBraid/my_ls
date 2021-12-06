@@ -10,14 +10,12 @@
 
     #include "my.h"
 
-typedef struct type_flags
-{
+typedef struct type_flags {
     char flag;
     void (* function)(char *str, va_list param, int i);
 } flags;
 
-typedef struct type_flags_all
-{
+typedef struct type_flags_all {
     flags **simple;
     flags **point;
     flags **add;

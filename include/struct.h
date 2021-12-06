@@ -8,8 +8,7 @@
 #ifndef MY_LS_STRUCT_H
     #define MY_LS_STRUCT_H
 
-typedef struct date_struct
-{
+typedef struct date_struct {
     int sec;
     int min;
     int hour;
@@ -20,8 +19,7 @@ typedef struct date_struct
     int year;
 } date_t;
 
-typedef struct file_struct
-{
+typedef struct file_struct {
     char *path;
     char *name;
     int nb;
@@ -35,8 +33,7 @@ typedef struct file_struct
     struct stat *stats;
 } file;
 
-typedef struct directory_struct
-{
+typedef struct directory_struct {
     char *path;
     char *name;
     int nb_files;
@@ -54,8 +51,7 @@ typedef struct directory_struct
     struct stat *stats;
 } dir;
 
-typedef struct all_data
-{
+typedef struct all_data {
     int nb_dir;
     int nb_files;
     dir **directory;
